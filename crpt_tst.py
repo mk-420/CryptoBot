@@ -25,8 +25,8 @@ def checker(st,sth):
         print(st)
         print(sth)
         bot.send_message(pr,650222726)
-    except:
-       pritnt("FAIL")
+   except:
+       print("FAIL")
 def SubTimer(msg, id):
     if informer(msg) != "Please enter correct district. You may check spelling on Google :)":
         ub[id] = msg
