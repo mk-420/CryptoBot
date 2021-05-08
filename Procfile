@@ -1,2 +1,2 @@
 worker: python
-script.py
+crpt_tst.py
