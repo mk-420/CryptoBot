@@ -43,7 +43,7 @@ def informer(dist):
     print(time.time())
     return "Price "+pr
 
-schedule.every().day.at("03:30").do(sender)
+
 
 print("Bot server is ON")
 # this processes the input
@@ -59,7 +59,6 @@ update_id = None
 # this lop fetch updates and passes it
 while True:
     message=checker(st,sth)
-    schedule.run_pending()
     updates = bot.get_updates(offset=update_id)
     updates = updates["result"]  # this stors all user id text etc
 
