@@ -41,7 +41,7 @@ def informer(dist):
     ts= (obj["dogeinr"]["at"])
     time = datetime.fromtimestamp(ts)
     print(time.time())
-    return "Price "+pr
+    return "Price "+pr+"cs"
 
 
 
