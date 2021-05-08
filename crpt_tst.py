@@ -1,11 +1,19 @@
 from BOTTEL import telegram_chatbot
 import json
 import requests
+import ast
 from datetime import datetime
 from urllib.request import urlopen
 # loads subscriber data
+with open("SubData.txt", "r+") as withRp:
+    cont = withRp.read()
+if cont != "":
+    ub = ast.literal_eval(cont)
+else:
+    ub = {}
 st=48;sth=57.5
-
+portfol=0.0
+inv=0
 bot = telegram_chatbot("config.cfg")
 # this adds subscriber
 def checker(st,sth):
@@ -35,13 +43,17 @@ def sender():
 
 # this is main function which uses json data from covid 19 api and searches it "
 def informer(dist):
+   #try:
     response = requests.get("https://api.wazirx.com/api/v2/tickers")
     obj = response.json()
     pr=(obj["dogeinr"]["last"])
     ts= (obj["dogeinr"]["at"])
     time = datetime.fromtimestamp(ts)
     print(time.time())
-    return "Price "+pr+"csg"
+    delt=(float(pr)*portfol)-inv
+    return "Price "+pr+"\nDelta "+str(delt)+"\nPortfolio "+str(float(pr)*portfol)
+   #except:
+       #return "SD"
 
 
 
@@ -89,10 +101,21 @@ while True:
                 bot.send_message(reply, from_)  # returns output with  id
             if "Setl" in message:
                 print(message)
-                st=float(message[4:])
+                try:
+                 st=float(message[4:])
+                except:
+                  None
             elif "Seth" in message:
                 print(message)
-                sth = float(message[4:])
+                try:
+                 sth = float(message[4:])
+                except:
+                  None
+            elif "port" in message.lower():
+                portfol=float(message[5:])
+            elif "inv" in message.lower():
+                print("ds")
+                inv=float(message[4:])
             else:
                 reply = make_reply(message)
                 bot.send_message(reply, from_)
