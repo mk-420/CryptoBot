@@ -12,7 +12,7 @@ if cont != "":
 else:
     ub = {}
 st=48;sth=57.5
-portfol=33
+portfol=66
 inv=2900
 bot = telegram_chatbot("config.cfg")
 # this adds subscriber
