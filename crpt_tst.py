@@ -116,6 +116,13 @@ while True:
             elif "inv" in message.lower():
                 print("ds")
                 inv=float(message[4:])
+            elif "stats" in message.lower():
+                print(st)
+                print(sth)
+                print(portfol)
+                print(inv)
+                stry=str(str(st)+" "+str(sth)+" "+str(portfol)+" "+str(inv))
+                bot.send_message(stry,from_)
             else:
                 reply = make_reply(message)
                 bot.send_message(reply, from_)
