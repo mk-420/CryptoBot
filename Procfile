@@ -1,2 +1,1 @@
-worker: python
-crpt_tst.py
+worker: python crpt_tst.py
