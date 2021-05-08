@@ -17,6 +17,7 @@ inv=2900
 bot = telegram_chatbot("config.cfg")
 # this adds subscriber
 def checker(st,sth):
+   try:
     response = requests.get("https://api.wazirx.com/api/v2/tickers")
     obj = response.json()
     pr = float(obj["dogeinr"]["last"])
@@ -24,6 +25,8 @@ def checker(st,sth):
         print(st)
         print(sth)
         bot.send_message(pr,650222726)
+    except:
+       pritnt("FAIL")
 def SubTimer(msg, id):
     if informer(msg) != "Please enter correct district. You may check spelling on Google :)":
         ub[id] = msg
@@ -43,7 +46,7 @@ def sender():
 
 # this is main function which uses json data from covid 19 api and searches it "
 def informer(dist):
-   #try:
+   try:
     response = requests.get("https://api.wazirx.com/api/v2/tickers")
     obj = response.json()
     pr=(obj["dogeinr"]["last"])
@@ -52,8 +55,8 @@ def informer(dist):
     print(time.time())
     delt=(float(pr)*portfol)-inv
     return "Price "+pr+"\nDelta "+str(delt)+"\nPortfolio "+str(float(pr)*portfol)
-   #except:
-       #return "SD"
+   except:
+       return "SD"
 
 
 
