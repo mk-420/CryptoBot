@@ -5,12 +5,7 @@ from datetime import datetime
 from urllib.request import urlopen
 # loads subscriber data
 st=48;sth=57.5
-with open("SubDataCRP.txt", "r+") as withRp:
-    cont = withRp.read()
-if cont != "":
-    ub = ast.literal_eval(cont)
-else:
-    ub = {}
+
 bot = telegram_chatbot("config.cfg")
 # this adds subscriber
 def checker(st,sth):
