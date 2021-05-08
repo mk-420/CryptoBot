@@ -1,11 +1,8 @@
 from BOTTEL import telegram_chatbot
-from nested_lookup import nested_lookup
 import json
 import requests
 from datetime import datetime
 from urllib.request import urlopen
-import schedule
-import ast
 # loads subscriber data
 st=48;sth=57.5
 with open("SubDataCRP.txt", "r+") as withRp:
