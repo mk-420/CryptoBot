@@ -34,10 +34,16 @@ def checker(list):
      prt=pr*float(dat[2])
      st=float(dat[0]);sth=float(dat[1])
      #print(it+" "+str(dat))
+     pr = (obj[ik]["last"])
+     delt = prt - float(dat[3])
      if(prt<st or prt>sth ):
         # print(st)
         # print(sth)
-        bot.send_message(str(pr)+"\n"+"PORTFOLIO= "+str(prt)+"\n"+it.upper(),650222726)
+        if(delt<0):
+            txts="FALLING\n"
+        else:
+            txts="PROFIT\n"
+        bot.send_message(txts+"ALERT\n"+it.upper()+" "+str(pr)+"\n"+"\nDelta "+str(int(delt))+"\nPORTFOLIO= "+str(int(prt))+"\n",650222726)
    #except:
        #print("FAIL")
 def SubTimer(msg, id):
@@ -60,7 +66,8 @@ def sender():
 # this is main function which uses json data from covid 19 api and searches it "
 def informer(dist):
    print("inf")
-   m=""
+   m="";tsd=0
+
    try:
     response = requests.get("https://api.wazirx.com/api/v2/tickers")
     obj = response.json()
@@ -72,12 +79,13 @@ def informer(dist):
      #print(it+" "+str(dat))
      #m=str(str(pr)+"\n"+"PORTFOLIO= "+str(prt)+"\n"+it.upper(),650222726)
      pr=(obj[ik]["last"])
-     delt=(float(pr)*portfol)-inv
+     delt=prt-float(dat[3])
+     tsd+=delt
      #print("her")
-     m+=str("\n"+it.upper()+"Price "+pr+"\nDelta "+str(delt)+"\nPortfolio "+str(float(pr)*portfol)+"\n")
-    return m
-   except:
-       return "SD"
+     m+=str("\n"+it.upper()+"\n"+"Price "+pr+"\nDelta "+str(int(delt))+"\nPortfolio "+str(int(prt))+"\n")
+    return m+"\nTotal Delta "+str(int(tsd))
+   except Exception as exed:
+       return exed
 
 
 
@@ -107,6 +115,7 @@ while True:
             update_id = item["update_id"]
             try:
                 message = str(item["message"]["text"])
+                print(message)
             except:
                 message = None
             from_ = item["message"]["from"]["id"]  # id
@@ -153,15 +162,32 @@ while True:
                 m=message
                 tar=m.split()
                 try:
-                    if len(tar)<5:
-                        tar[4]=list[tar[1]][2]
-                    list[tar[1]]=[tar[2],tar[3],tar[4]]
+                    list[tar[1]]=[tar[2],tar[3],tar[4],tar[5]]
                     with open("ud.txt", "r+") as withRp:
                         withRp.truncate()
                         withRp.write(str(list))
                     checker(list)
                 except:
                     bot.send_message("REENTER",from_)
+            elif "mod" in message.lower():
+                m=message
+                tar=m.split()
+                try:
+                    if len(tar)>2:
+                     val=int(tar[2])
+                     list[tar[1]][val] = float(tar[3])
+                    if tar[1] in list:
+                        None
+                    else:
+                     list[tar[1]] =[0,0,0,0]
+
+
+                    with open("ud.txt", "r+") as withRp:
+                        withRp.truncate()
+                        withRp.write(str(list))
+                    checker(list)
+                except Exception as tts:
+                       bot.send_message(tts,from_)
             else:
                 reply = make_reply(message)
                 bot.send_message(reply, from_)
