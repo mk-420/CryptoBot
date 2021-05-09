@@ -1,5 +1,6 @@
 from BOTTEL import telegram_chatbot
 import json
+import numpy as np
 import requests
 import ast
 from datetime import datetime
@@ -11,22 +12,33 @@ if cont != "":
     ub = ast.literal_eval(cont)
 else:
     ub = {}
-st=48;sth=57.5
-portfol=66
-inv=2900
+
+with open("ud.txt", "r+") as withRp:
+    cont = withRp.read()
+if cont != "":
+    list = ast.literal_eval(cont)
+else:
+    list = {}
+st=30;sth=57.5;list={};portfol=66;inv=2900
 bot = telegram_chatbot("config.cfg")
 # this adds subscriber
-def checker(st,sth):
-   try:
+def checker(list):
+   #try:
     response = requests.get("https://api.wazirx.com/api/v2/tickers")
     obj = response.json()
-    pr = float(obj["dogeinr"]["last"])
-    if(pr<st or pr>sth):
+
+    for it,dat in list.items():
+     ik=it+"inr"
+     pr = float(obj[ik]["last"])
+     prt=pr*float(dat[2])
+     st=float(dat[0]);sth=float(dat[1])
+     print(it+" "+str(dat))
+     if(prt<st or prt>sth ):
         print(st)
         print(sth)
-        bot.send_message(pr,650222726)
-   except:
-       print("FAIL")
+        bot.send_message(str(pr)+"\n"+"PORTFOLIO= "+str(prt)+"\n"+it.upper(),650222726)
+   #except:
+       #print("FAIL")
 def SubTimer(msg, id):
     if informer(msg) != "Please enter correct district. You may check spelling on Google :)":
         ub[id] = msg
@@ -46,17 +58,23 @@ def sender():
 
 # this is main function which uses json data from covid 19 api and searches it "
 def informer(dist):
-   try:
+    m="";pr=""
+   #try:
     response = requests.get("https://api.wazirx.com/api/v2/tickers")
     obj = response.json()
-    pr=(obj["dogeinr"]["last"])
-    ts= (obj["dogeinr"]["at"])
-    time = datetime.fromtimestamp(ts)
-    print(time.time())
-    delt=(float(pr)*portfol)-inv
-    return "Price "+pr+"\nDelta "+str(delt)+"\nPortfolio "+str(float(pr)*portfol)
-   except:
-       return "SD"
+    for it,dat in list.items():
+     ik=it+"inr"
+     pr = float(obj[ik]["last"])
+     prt=pr*float(dat[2])
+     st=float(dat[0]);sth=float(dat[1])
+     print(it+" "+str(dat))
+     #m=str(str(pr)+"\n"+"PORTFOLIO= "+str(prt)+"\n"+it.upper(),650222726)
+     pr=(obj[ik]["last"])
+     delt=(float(pr)*portfol)-inv
+     m+=str("\n"+it.upper()+"Price "+pr+"\nDelta "+str(delt)+"\nPortfolio "+str(float(pr)*portfol)+"\n")
+    return m
+   #except:
+       #return "SD"
 
 
 
@@ -73,7 +91,7 @@ stid = False
 update_id = None
 # this lop fetch updates and passes it
 while True:
-    message=checker(st,sth)
+    message=checker(list)
     updates = bot.get_updates(offset=update_id)
     updates = updates["result"]  # this stors all user id text etc
 
@@ -114,8 +132,6 @@ while True:
                  sth = float(message[4:])
                 except:
                   None
-            elif "port" in message.lower():
-                portfol=float(message[5:])
             elif "inv" in message.lower():
                 print("ds")
                 inv=float(message[4:])
@@ -126,6 +142,14 @@ while True:
                 print(inv)
                 stry=str(str(st)+" "+str(sth)+" "+str(portfol)+" "+str(inv))
                 bot.send_message(stry,from_)
+            elif "add" in message.lower():
+                m=message
+                tar=m.split()
+                list[tar[1]]=[tar[2],tar[3],tar[4]]
+                with open("ud.txt", "r+") as withRp:
+                    withRp.truncate()
+                    withRp.write(str(list))
+                checker(list)
             else:
                 reply = make_reply(message)
                 bot.send_message(reply, from_)
