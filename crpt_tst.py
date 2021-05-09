@@ -19,7 +19,8 @@ if cont != "":
     list = ast.literal_eval(cont)
 else:
     list = {}
-st=30;sth=57.5;list={};portfol=66;inv=2900
+print(list)
+st=-100000000;sth=100000000;portfol=66;inv=2900
 bot = telegram_chatbot("config.cfg")
 # this adds subscriber
 def checker(list):
@@ -58,11 +59,14 @@ def sender():
 
 # this is main function which uses json data from covid 19 api and searches it "
 def informer(dist):
-    m="";pr=""
-   #try:
+   print("inf")
+   m=""
+   try:
     response = requests.get("https://api.wazirx.com/api/v2/tickers")
     obj = response.json()
+    print("2")
     for it,dat in list.items():
+     print("S")
      ik=it+"inr"
      pr = float(obj[ik]["last"])
      prt=pr*float(dat[2])
@@ -71,10 +75,11 @@ def informer(dist):
      #m=str(str(pr)+"\n"+"PORTFOLIO= "+str(prt)+"\n"+it.upper(),650222726)
      pr=(obj[ik]["last"])
      delt=(float(pr)*portfol)-inv
+     print("her")
      m+=str("\n"+it.upper()+"Price "+pr+"\nDelta "+str(delt)+"\nPortfolio "+str(float(pr)*portfol)+"\n")
     return m
-   #except:
-       #return "SD"
+   except:
+       return "SD"
 
 
 
@@ -120,7 +125,7 @@ while True:
                 reply = SubTimer(message, from_)  # sent to process input
                 print(message + " >>" + "sucess subs")
                 bot.send_message(reply, from_)  # returns output with  id
-            if "Setl" in message:
+            elif "Setl" in message:
                 print(message)
                 try:
                  st=float(message[4:])
@@ -136,11 +141,7 @@ while True:
                 print("ds")
                 inv=float(message[4:])
             elif "stats" in message.lower():
-                print(st)
-                print(sth)
-                print(portfol)
-                print(inv)
-                stry=str(str(st)+" "+str(sth)+" "+str(portfol)+" "+str(inv))
+                stry=str(list)
                 bot.send_message(stry,from_)
             elif "add" in message.lower():
                 m=message
