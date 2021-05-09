@@ -143,6 +143,14 @@ while True:
             elif "stats" in message.lower():
                 stry=str(list)
                 bot.send_message(stry,from_)
+            elif "rem" in message.lower():
+                m = message
+                tar = m.split()
+                del list[tar[1]]
+                with open("ud.txt", "r+") as withRp:
+                    withRp.truncate()
+                    withRp.write(str(list))
+                checker(list)
             elif "add" in message.lower():
                 m=message
                 tar=m.split()
