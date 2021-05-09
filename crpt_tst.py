@@ -196,6 +196,15 @@ while True:
                     checker(list)
                 except Exception as tts:
                        bot.send_message(tts,from_)
+            elif "mon" in message.lower():
+                m = message
+                tar = m.split()
+                list[tar[1]][0]=float(tar[2])*float(list[tar[1]][2])
+                list[tar[1]][1] = float(tar[3])*float(list[tar[1]][2])
+                with open("ud.txt", "r+") as withRp:
+                    withRp.truncate()
+                    withRp.write(str(list))
+                checker(list)
             else:
                 reply = make_reply(message)
                 bot.send_message(reply, from_)
