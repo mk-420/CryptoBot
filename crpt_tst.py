@@ -33,10 +33,10 @@ def checker(list):
      pr = float(obj[ik]["last"])
      prt=pr*float(dat[2])
      st=float(dat[0]);sth=float(dat[1])
-     print(it+" "+str(dat))
+     #print(it+" "+str(dat))
      if(prt<st or prt>sth ):
-        print(st)
-        print(sth)
+        # print(st)
+        # print(sth)
         bot.send_message(str(pr)+"\n"+"PORTFOLIO= "+str(prt)+"\n"+it.upper(),650222726)
    #except:
        #print("FAIL")
@@ -64,18 +64,16 @@ def informer(dist):
    try:
     response = requests.get("https://api.wazirx.com/api/v2/tickers")
     obj = response.json()
-    print("2")
     for it,dat in list.items():
-     print("S")
      ik=it+"inr"
      pr = float(obj[ik]["last"])
      prt=pr*float(dat[2])
      st=float(dat[0]);sth=float(dat[1])
-     print(it+" "+str(dat))
+     #print(it+" "+str(dat))
      #m=str(str(pr)+"\n"+"PORTFOLIO= "+str(prt)+"\n"+it.upper(),650222726)
      pr=(obj[ik]["last"])
      delt=(float(pr)*portfol)-inv
-     print("her")
+     #print("her")
      m+=str("\n"+it.upper()+"Price "+pr+"\nDelta "+str(delt)+"\nPortfolio "+str(float(pr)*portfol)+"\n")
     return m
    except:
@@ -154,11 +152,16 @@ while True:
             elif "add" in message.lower():
                 m=message
                 tar=m.split()
-                list[tar[1]]=[tar[2],tar[3],tar[4]]
-                with open("ud.txt", "r+") as withRp:
-                    withRp.truncate()
-                    withRp.write(str(list))
-                checker(list)
+                try:
+                    if len(tar)<5:
+                        tar[4]=list[tar[1]][2]
+                    list[tar[1]]=[tar[2],tar[3],tar[4]]
+                    with open("ud.txt", "r+") as withRp:
+                        withRp.truncate()
+                        withRp.write(str(list))
+                    checker(list)
+                except:
+                    bot.send_message("REENTER",from_)
             else:
                 reply = make_reply(message)
                 bot.send_message(reply, from_)
