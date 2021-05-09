@@ -200,7 +200,10 @@ while True:
                 m = message
                 tar = m.split()
                 list[tar[1]][0]=float(tar[2])*float(list[tar[1]][2])
-                list[tar[1]][1] = float(tar[3])*float(list[tar[1]][2])
+                try:
+                 list[tar[1]][1] = float(tar[3])*float(list[tar[1]][2])
+                except:
+                  None
                 with open("ud.txt", "r+") as withRp:
                     withRp.truncate()
                     withRp.write(str(list))
