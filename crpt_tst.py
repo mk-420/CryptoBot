@@ -173,13 +173,21 @@ while True:
                 m=message
                 tar=m.split()
                 try:
-                    if len(tar)>2:
+                    if len(tar)==5:
+                        print(list[tar[1]])
+
+                        list[tar[1]] = [tar[2], tar[3], tar[4],list[tar[1]][3]]
+                    elif len(tar)>2:
+
                      val=int(tar[2])
                      list[tar[1]][val] = float(tar[3])
-                    if tar[1] in list:
-                        None
+
+
+                    elif (tar[1] in list):
+                       list[tar[1]] =[-1000000,10000000,list[tar[1]][2],list[tar[1]][3]]
                     else:
-                     list[tar[1]] =[0,0,0,0]
+                         list[tar[1]] = [0, 0, 0, 0]
+
 
 
                     with open("ud.txt", "r+") as withRp:
