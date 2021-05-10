@@ -154,19 +154,13 @@ while True:
                 m = message
                 tar = m.split()
                 del list[tar[1]]
-                with open("ud.txt", "r+") as withRp:
-                    withRp.truncate()
-                    withRp.write(str(list))
-                checker(list)
+                bot.send_message(list,from_)
             elif "add" in message.lower():
                 m=message
                 tar=m.split()
                 try:
                     list[tar[1]]=[tar[2],tar[3],tar[4],tar[5]]
-                    with open("ud.txt", "r+") as withRp:
-                        withRp.truncate()
-                        withRp.write(str(list))
-                    checker(list)
+                    bot.send_message(list,from_)
                 except:
                     bot.send_message("REENTER",from_)
             elif "mod" in message.lower():
@@ -190,24 +184,22 @@ while True:
 
 
 
-                    with open("ud.txt", "r+") as withRp:
-                        withRp.truncate()
-                        withRp.write(str(list))
-                    checker(list)
+                    bot.send_message(list,from_)
                 except Exception as tts:
                        bot.send_message(tts,from_)
             elif "mon" in message.lower():
                 m = message
                 tar = m.split()
-                list[tar[1]][0]=float(tar[2])*float(list[tar[1]][2])
+
                 try:
+                 list[tar[1]][0] = float(tar[2]) * float(list[tar[1]][2])
                  list[tar[1]][1] = float(tar[3])*float(list[tar[1]][2])
                 except:
-                  None
-                with open("ud.txt", "r+") as withRp:
-                    withRp.truncate()
-                    withRp.write(str(list))
-                checker(list)
+                  bot.send_message("inld",from_)
+                bot.send_message(list,from_)
+            elif "dict" in message.lower():
+                list={}
+                list=ast.literal_eval(message[5:])
             else:
                 reply = make_reply(message)
                 bot.send_message(reply, from_)
